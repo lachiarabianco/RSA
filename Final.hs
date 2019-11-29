@@ -10,16 +10,15 @@ foo _ =
         p = randomRIO (1, 10)
         q = p
 
-main = do
 
-  putStrLn "RSA"
+--putStrLn "RSA"
 
 --System.Random mi serve per estrarre degli interi tra m e n 
 randomInteger :: Integer -> Integer -> IO Integer
 randomInteger m n = randomRIO (m, n)
 
-putStrLn m 
-putStrLn n
+--putStrLn m 
+--putStrLn n
 
 -- Esegue "a mod b" con il supporto per un primo argomento negativo, 
 -- ovvero (-3 mod 4) valuterà 1 invece di rimanere a -3 come farebbe `mod`
@@ -105,25 +104,25 @@ getPrivateExponent e p q =
 -- Genera coppia di chiavi pubblica (e, n ') e coppia privata (d, n') 
 -- con numeri primi nell'intervallo da m a n (incluso) con precisione 4 ^ -k
 getRSAKeyPairs :: Integer -> Integer -> Integer -> IO ((Integer, Integer), (Integer, Integer))
-getRSAKeyPairs m n k =
-    do
-        p <- getRandomPrime m n k
-        q <- getRandomPrime m n k
-        e <- getPublicExponent p q
-        d <- getPrivateExponent e p q
-        return ((e, (p * q)), (d, (p * q)))
+getRSAKeyPairs m n k = do
+  p <- getRandomPrime m n k
+  q <- getRandomPrime m n k
+  e <- getPublicExponent p q
+  d <- getPrivateExponent e p q
+  return ((e, (p * q)), (d, (p * q)))
 
-putStrLn ("Chiave pubblica: (" ++ e ++ ", " ++ (p*q) ++ "), Chiave privata: (" ++ d ++ ", " ++ (p*q) ++ ")"
+--putStrLn ("Chiave pubblica: (" ++ e ++ ", " ++ (p*q) ++ "), Chiave privata: (" ++ d ++ ", " ++ (p*q) ++ ")"
 
 --Metodo per criptare e decriptare
 
 --Si può chiamare get KeyPair per ottenere le coppie di tasti e quindi utilizzare le seguenti funzioni.
 
 -- Crittografa un messaggio m utilizzando la coppia di chiavi pubbliche pbk = (e, n)
-  encrypt :: Integer -> (Integer, Integer) -> Integer
-  encrypt m (e, n) = fullMod (m^e) n
+encrypt :: Integer -> (Integer, Integer) -> Integer
+encrypt m (e, n) = fullMod (m^e) n
 
 -- Decodifica un messaggio c usando la coppia di chiavi private prk = (d, n)
-  decrypt :: Integer -> (Integer, Integer) -> Integer
-  decrypt c (d, n) = fullMod (c^d) n
+decrypt :: Integer -> (Integer, Integer) -> Integer
+decrypt c (d, n) = fullMod (c^d) n
+
 
